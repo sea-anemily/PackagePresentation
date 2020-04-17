@@ -1,0 +1,52 @@
+---
+title: "Mobsim Handout"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("mobsim")
+require(mobsim)
+```
+
+# Mobsim
+## Introduction
+Mobism is titled Spatial Stimulation and scale-dependent analysis of biodiversity changes. This means it is a tool to analyze and sample spatial biodiversity data. It looks at the number of species, individuals and the abundance and distribution of those species, and analyzes species rarefication, accumulation curves, and species-area relationships.
+In the world of ecology, these tools are incredibly valuable, in that they allow us to take data and look for patterns. These patterns are what can lead to understanding relationships inside an ecological system.
+
+## Functions
+Mobism has quite a few useful funtions ranging from simulating data to analizing it.
+
+### sim_thomas_community
+This function simmulates a community with clumped spatial positions meaning it is a community with a certain abundance distribution and individuals of the same species are clumped together.
+
+To make things easier we will name our sim_thomas_community simulation "sim_dat1"
+```{r}
+sim_dat1 <- sim_thomas_community(s_pool = 30, n_sim = 1000, sad_type = "lnorm", sad_coef = list("meanlog" = 2, "sdlog" = 1), sigma = 0.1, mother_points = 1)
+```
+We can plot our simulation. Each dot is one individual and each color is a species. This could be useful to compare to another data set to see if it resembles this clustered pattern.
+
+```{r}
+plot(sim_dat1)
+```
+
+### rarefication curve
+This feature of mobism can estimate how the number of observed species increases with sample size of individuals. A rarefaction curve allows for the calculation of species richness for a given number of individual samples. 
+We will name our rarefaction analysis of the sim_thomas_community data from before "rare1"
+```{r}
+rare1 <- spec_sample_curve(sim_dat1, method = "rarefaction")
+str(rare1)
+```
+We can then plot our rare1 analysis. The curve shows the relationship between the expected number of species and the number of individuals sampled.
+```{r}
+plot(rare1)
+```
+
+## Resources
+
+https://cran.r-project.org/web/packages/mobsim/mobsim.pdf
+
+https://cran.r-project.org/web/packages/mobsim/vignettes/Biodiversity_Patterns.html
